@@ -10,6 +10,7 @@ use player::PlayerPlugin;
 use settings::BACKGROUND_COLOR;
 use ui::UiPlugin;
 
+mod level;
 mod player;
 mod settings;
 mod ui;
