@@ -2,7 +2,7 @@ use assets::PlayerLayouts;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::AppState;
+use crate::{AppState, camera::Target};
 use mods::cat;
 
 mod assets;
@@ -16,8 +16,6 @@ pub struct Player;
 pub enum PlayerState {
     #[default]
     Cat,
-    Barrel,
-    Dead,
 }
 
 #[derive(Debug, Clone)]
@@ -41,6 +39,7 @@ fn spawn_player(
     assets: Res<AssetServer>,
 ) {
     commands.spawn((
+        Target,
         Player,
         RigidBody::KinematicPositionBased,
         Collider::capsule_x(5., 10.),

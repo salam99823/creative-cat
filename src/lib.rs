@@ -6,10 +6,14 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier2d::prelude::*;
 use bevy_spritesheet_animation::prelude::*;
 
+use camera::CameraPlugin;
+use enemy::EnemyPlugin;
 use player::PlayerPlugin;
 use settings::BACKGROUND_COLOR;
 use ui::UiPlugin;
 
+mod camera;
+mod enemy;
 mod player;
 mod settings;
 mod ui;
@@ -26,11 +30,12 @@ impl PluginGroup for GamePlugins {
     fn build(self) -> PluginGroupBuilder {
         PluginGroupBuilder::start::<Self>()
             .add(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-            .add(RapierDebugRenderPlugin::default())
             .add(TilemapPlugin)
             .add(SpritesheetAnimationPlugin::default())
-            .add(PlayerPlugin)
+            .add(CameraPlugin)
             .add(UiPlugin)
+            .add(PlayerPlugin)
+            .add(EnemyPlugin)
     }
     fn set<T: Plugin>(self, plugin: T) -> PluginGroupBuilder {
         self.build().set(plugin)
@@ -44,7 +49,7 @@ pub fn start() {
                 .set(ImagePlugin::default_nearest())
                 .set(WindowPlugin {
                     primary_window: Some(Window {
-                        title: "Creative Cat".to_string(),
+                        title: "Креативный Кот".to_string(),
                         ..Default::default()
                     }),
                     ..Default::default()
@@ -65,8 +70,7 @@ pub enum AppState {
     InGame,
 }
 
-fn setup(mut commands: Commands, mut configs: Query<&mut RapierConfiguration>) {
-    commands.spawn(Camera2d);
+fn setup(mut configs: Query<&mut RapierConfiguration>) {
     for mut configs in &mut configs {
         configs.gravity = Vec2::ZERO;
     }

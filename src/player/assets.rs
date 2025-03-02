@@ -12,14 +12,28 @@ pub fn setup_clips(
     });
 
     // Idle
-    let idle_clip = Clip::from_frames(spritesheet.row(2));
+    let idle_clip = Clip::from_frames(spritesheet.row(1));
     let idle_clip_id = library.register_clip(idle_clip);
 
-    let idle_animation = Animation::from_clip(idle_clip_id);
+    let idle_animation = Animation::from_clip(idle_clip_id)
+        .with_repetitions(AnimationRepeat::Times(1))
+        .with_duration(AnimationDuration::PerFrame(75));
     let idle_animation_id = library.register_animation(idle_animation);
 
     library
         .name_animation(idle_animation_id, "cat-idle")
+        .unwrap();
+
+    // Sits
+    let sits_clip = Clip::from_frames(spritesheet.row(2));
+    let sits_clip_id = library.register_clip(sits_clip);
+
+    let sits_animation =
+        Animation::from_clip(sits_clip_id).with_repetitions(AnimationRepeat::Times(1));
+    let sits_animation_id = library.register_animation(sits_animation);
+
+    library
+        .name_animation(sits_animation_id, "cat-sits")
         .unwrap();
 
     // Run

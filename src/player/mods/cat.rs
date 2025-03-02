@@ -13,7 +13,7 @@ pub fn setup(
         commands
             .entity(entity)
             .insert(SpritesheetAnimation::from_id(
-                library.animation_with_name("cat-idle").unwrap(),
+                library.animation_with_name("cat-sits").unwrap(),
             ));
     }
 }
